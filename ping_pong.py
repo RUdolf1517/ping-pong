@@ -42,12 +42,14 @@ win_width = 600
 win_height = 500
 window = display.set_mode((win_width, win_height))
 window.fill(back)
+speed_x = 3
+speed_y = 3
 
 #флаги отвечающие за состояние игры
 game = True
 finish = False
 clock = time.Clock()
-FPS = 60
+FPS = 120
 
 #создания мяча и ракетки    
 racket1 = Player('racket.png', 30, 200, 4, 50, 150) # при созданни спрайта добавляется еще два параметра
@@ -63,6 +65,9 @@ while game:
         window.fill(back)
         racket1.update_l()
         racket2.update_r()
+
+        ball.rect.x += speed_x
+        ball.rect.y += speed_y
         
         racket1.draw()
         racket2.draw()
@@ -70,3 +75,8 @@ while game:
 
     display.update()
     clock.tick(FPS)
+    if ball.rect.y > win_height-50 or ball.rect.y < 0:
+        speed_y *= -1
+
+    if sprite.collide_rect(racket1, ball) or sprite.collide_rect(racket2, ball):
+        speed_x *= -1
