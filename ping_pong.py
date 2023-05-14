@@ -51,6 +51,8 @@ finish = False
 clock = time.Clock()
 FPS = 120
 
+
+
 #создания мяча и ракетки    
 racket1 = Player('racket.png', 30, 200, 4, 50, 150) # при созданни спрайта добавляется еще два параметра
 racket2 = Player('racket.png', 520, 200, 4, 50, 150)
@@ -68,10 +70,17 @@ while game:
 
         ball.rect.x += speed_x
         ball.rect.y += speed_y
-        
+
+        font.init()
+        font1 = font.Font(None, 35)
+        lose1 = font1.render("comrade lose!", True, (180 , 0, 0))
+        font2 = font.Font(None, 35)
+        lose2 = font2.render("comrade lose!", True, (180 , 0, 0))
+
         racket1.draw()
         racket2.draw()
         ball.draw()
+        
 
     display.update()
     clock.tick(FPS)
@@ -80,3 +89,11 @@ while game:
 
     if sprite.collide_rect(racket1, ball) or sprite.collide_rect(racket2, ball):
         speed_x *= -1
+
+    if ball.rect.x < 0:
+        finish = True
+        window.blit(lose1, (200, 200))
+
+    if ball.rect.x > 600:
+        finish = True
+        window.blit(lose2, (200, 200))
